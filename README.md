@@ -2,7 +2,7 @@
 Ces fichiers permettent  de configurer le prompt du shell sur des serveurs Debian.
 Des alias dont dé-commenter pour avoir les couleurs & activer l'interaction pour la copy et le suppression de fichiers.
 
-##Des alias pratiques sont définit :
+## Des alias pratiques sont définit :
 
 **maj** ---> permet de faire des maj du systeme
 
