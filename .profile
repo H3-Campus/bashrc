@@ -1,30 +1,45 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# ~/.profile: executed by Bourne-compatible login shells.
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+if [ "$BASH" ]; then
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+mesg n || true
 
+##########################################################
+#                Custom Profile
+##########################################################
+
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@\h \[\033[01;32m\]\w\[\033[00m\]\$ '
+
+export LS_OPTIONS='--color=auto'
+eval "`dircolors`"
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+#
+# Some more alias to avoid making mistakes:
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias maj='apt update && apt full-upgrade -y && apt autoremove -y'
+alias sp='source .profile'
+
+clear
 neofetch
+alias disk="df -h | grep DATAS | sed -e 's/ /:/g' | sed -e 's/::/:/g'"
+
+echo "Bienvenue sur : $(hostname -f) ($(hostname -i)) !"
+echo "******************************************************"
+echo "Note: Toutes actions sur ce serveur sont enregistrees."
+echo "------------------------------------------------------"
+echo "Date    : $(date) "
+echo "Uptime  : $(uptime -p)"
+echo "Disk    : Use->$(disk | cut -d ':' -f4) / Free->$(disk | cut -d ':' -f6) (Use: $(disk | cut -d ':' -f7))"
+echo -e "Apache2 : \033[01;32m $(service apache2 status | grep Active | cut -d ' ' -f5,6) \033[01;37m"
+echo -e "MariaDB : \033[01;32m $(service mysql  status | grep Active | cut -d ' ' -f5,6) \033[01;37m"
+echo ""
 
