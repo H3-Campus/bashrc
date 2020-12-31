@@ -30,7 +30,7 @@ alias sp='source .profile'
 
 clear
 neofetch
-alias disk="df -h | grep DATAS | sed -e 's/ /:/g' | sed -e 's/::/:/g'"
+alias disk="df -h | grep dev | sed -e 's/ /:/g' | sed -e 's/::/:/g'"
 
 echo "Bienvenue sur : $(hostname -f) ($(hostname -i)) !"
 echo "******************************************************"
@@ -38,7 +38,7 @@ echo "Note: Toutes actions sur ce serveur sont enregistrees."
 echo "------------------------------------------------------"
 echo "Date    : $(date) "
 echo "Uptime  : $(uptime -p)"
-echo "Disk    : Use->$(disk | cut -d ':' -f4) / Free->$(disk | cut -d ':' -f6) (Use: $(disk | cut -d ':' -f7))"
+echo "Disk    : Use->$(disk | cut -d ':' -f3) / Free->$(disk | cut -d ':' -f4) (Use: $(disk | cut -d ':' -f5))"
 echo -e "Apache2 : \033[01;32m $(service apache2 status | grep Active | cut -d ' ' -f5,6) \033[01;37m"
 echo -e "MariaDB : \033[01;32m $(service mysql  status | grep Active | cut -d ' ' -f5,6) \033[01;37m"
 echo ""
