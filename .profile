@@ -33,7 +33,7 @@ alias ep='nano .profile'
 
 clear
 neofetch
-alias disk="df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'"
+alias disk="df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g'"
 
 echo "Bienvenue sur : $(hostname -f) ($(hostname -I)) !"
 echo "******************************************************"
