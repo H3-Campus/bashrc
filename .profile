@@ -50,7 +50,6 @@ echo -e "Disk    : Use->$(disk | cut -d ':' -f3) / Free->$(disk | cut -d ':' -f4
 # Verification des services Web
 pidof "mysqld" >/dev/null && echo -e "MariaDB : \e[01;32;7m Service actif \e[0m" || echo -e "MariaDB : \e[41;37;5m Service inactif \e[0m"
 pidof "apache2" >/dev/null && echo -e "Apache2 : \e[01;32;7m Service actif \e[0m" || echo -e "Apache2 : \e[41;37;5m Service inactif \e[0m"
-# Vérification des agents
 pidof "fusioninventory" >/dev/null && echo -e "Fusion  : \e[01;32;7m Service actif \e[0m" || echo -e "Fusion  : \e[41;37;5m Service inactif \e[0m"
 # Verification des services Proxmox
 pidof "pvedaemon" >/dev/null && echo -e "PVE      : \e[01;32;7m Service actif \e[0m" || echo -e "PVE       : \e[41;37;5m Service inactif \e[0m"
@@ -58,7 +57,7 @@ pidof "pveproxy" >/dev/null && echo -e "PVE-Proxy: \e[01;32;7m Service actif \e[
 # Vérification du serveur de temps
 pidof "ntpd" >/dev/null && echo -e "NTP     : \e[01;32;7m Service actif \e[0m" || echo -e "NTP     : \e[41;37;5m Service inactif \e[0m"
 # Vérification du serveur CUPS
-pidof "avahi-daemon" >/dev/null && echo -e "NTP      : \e[01;32;7m Service actif \e[0m" || echo -e "NTP      : \e[41;37;5m Service inactif \e[0m"
+pidof "avahi-daemon" >/dev/null && echo -e "CUPS    : \e[01;32;7m Service actif \e[0m" || echo -e "CUPS    : \e[41;37;5m Service inactif \e[0m"
 
 # Envoie du mail d'alertes de connexion.
 echo "Merci de vérifier que vous êtes bien à l'originie de cette connexion." | mail -s "Connexion sur : $HOSTNAME avec le compte : $USER" admin@h3campus.fr
