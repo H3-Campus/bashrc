@@ -56,7 +56,9 @@ pidof "fusioninventory" >/dev/null && echo -e "Fusion  : \e[01;32;7m Service act
 pidof "pvedaemon" >/dev/null && echo -e "PVE      : \e[01;32;7m Service actif \e[0m" || echo -e "PVE       : \e[41;37;5m Service inactif \e[0m"
 pidof "pveproxy" >/dev/null && echo -e "PVE-Proxy: \e[01;32;7m Service actif \e[0m" || echo -e "PVE-Proxy: \e[41;37;5m Service inactif \e[0m"
 # Vérification du serveur de temps
-pidof "ntpd" >/dev/null && echo -e "NTP      : \e[01;32;7m Service actif \e[0m" || echo -e "NTP      : \e[41;37;5m Service inactif \e[0m"
+pidof "ntpd" >/dev/null && echo -e "NTP     : \e[01;32;7m Service actif \e[0m" || echo -e "NTP     : \e[41;37;5m Service inactif \e[0m"
+# Vérification du serveur CUPS
+pidof "avahi-daemon" >/dev/null && echo -e "NTP      : \e[01;32;7m Service actif \e[0m" || echo -e "NTP      : \e[41;37;5m Service inactif \e[0m"
 
 # Envoie du mail d'alertes de connexion.
 echo "Merci de vérifier que vous êtes bien à l'originie de cette connexion." | mail -s "Connexion sur : $HOSTNAME avec le compte : $USER" admin@h3campus.fr
