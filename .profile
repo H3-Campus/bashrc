@@ -17,6 +17,8 @@ mesg n || true
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@\h \[\033[01;32m\]\w\[\033[00m\]\$ '
 MaxHDUse=80
 
+#$mail=mail@mail.fr 
+
 export LS_OPTIONS='--color=auto'
 eval "`dircolors`"
 alias ls='ls $LS_OPTIONS'
@@ -62,5 +64,5 @@ echo -e "Disk    : Use->$(disk | cut -d ':' -f3) / Free->$(disk | cut -d ':' -f4
 #pidof "avahi-daemon" >/dev/null && echo -e "CUPS    : \e[01;32;7m Service actif \e[0m" || echo -e "CUPS    : \e[41;37;5m Service inactif \e[0m"
 
 # Envoie du mail d'alertes de connexion.
-echo "Merci de vérifier que vous êtes bien à l'originie de cette connexion." | mail -s "Connexion sur : $HOSTNAME avec le compte : $USER" admin@h3campus.fr
+#echo "Merci de vérifier que vous êtes bien à l'origine de cette connexion." | mail -s "Connexion sur : $HOSTNAME avec le compte : $USER" $mail
 
