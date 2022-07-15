@@ -91,7 +91,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias maj='sudo apt update && sudo apt full-upgrade -y'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
