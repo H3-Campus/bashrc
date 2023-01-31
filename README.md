@@ -10,5 +10,4 @@ Des alias dont dé-commenter pour avoir les couleurs & activer l'interaction pou
 
 Installation :
 
-  `git clone https://github.com/h3-campus/bashrc`
-  `sh bashrc/install.sh`
+  `git clone https://github.com/h3-campus/bashrc && sh bashrc/install.sh`
