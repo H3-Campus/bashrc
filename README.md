@@ -7,3 +7,8 @@ Des alias dont dé-commenter pour avoir les couleurs & activer l'interaction pou
 **maj** ---> permet de faire des maj du systeme
 
 **sp** --> recharger le fichier en cas de modification ou pour faire apparaître un résumé de l'état du système.
+
+Installation :
+
+  `git clone https://github.com/h3-campus/bashrc`
+  `sh bashrc/install.sh`
