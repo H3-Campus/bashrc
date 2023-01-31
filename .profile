@@ -51,11 +51,11 @@ echo "Note: Toutes actions sur ce serveur sont enregistrees."
 echo "------------------------------------------------------"
 echo "Date    : $(date) "
 echo "Uptime  : $(uptime -p)"
-echo "Temp    : $(cat  /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input|sed 's/\(.\)..$/.\1°C/')"
+echo "Temp    : $(cat /sys/devices/platform/coretemp.0/hwmon/hwmon4/device/hwmon/hwmon4/temp1_input|sed 's/\(.\)..$/.\1°C/')"
 # Disk : Verification de l'espace restant
 FD=$(echo $(disk | cut -d ':' -f5)| cut -d '%' -f1)
 [ $FD -lt $MaxHDUse ] && libre="\e[01;32;7m $FD% \e[0m" || libre="\e[41;37;5m $FD% \e[0m"
-echo -e "Disk    : Use->$(disk | cut -d ':' -f3) / Free->$(disk | cut -d ':' -f4) (Use: $libre)"
+echo -e "Disk    : Use->$(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f3) / Free->$(disk | cut -d ':' -f4) (Use: $libre)"
 
 # Verification des services Web
 #pidof "pihole-FTL" >/dev/null && echo -e "Pihole-FTL: \e[01;32;7m Service actif \e[0m" || echo -e "MariaDB : \e[41;37;5m Service inactif \e[0m"
