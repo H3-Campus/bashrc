@@ -7,7 +7,7 @@
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
-apt install -y neofetch mailutils 
+apt install -y neofetch mailutils fliglet
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -72,3 +72,4 @@ echo -e "Disk    : Use->$(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed
 
 # Envoie du mail d'alertes de connexion.
 echo "Merci de vérifier que vous êtes bien à l'originie de cette connexion." | mail -s "Connexion sur : $HOSTNAME avec le compte : $USER" admin@h3campus.fr
+figlet H3-Campus
