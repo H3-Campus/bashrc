@@ -7,7 +7,14 @@
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
-apt install -y neofetch mailutils figlet
+marker_file=~/.utils_ok
+
+if [ -f "$marker_file" ]; then
+  echo "Mise à jour des outils déjà faite."
+else
+  touch "$marker_file"
+  apt install -y neofetch mailutils figlet
+fi
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
