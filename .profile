@@ -2,12 +2,14 @@
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
 # see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# the files are located in thebash-doc package.
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 marker_file=~/.utils_ok
+host1="1.1.1.1"
+host2="www.google.com"
 
 if [ -f "$marker_file" ]; then
   echo "Mise à jour des outils déjà faite."
@@ -56,6 +58,19 @@ echo "Bienvenue sur : $(hostname -f) ($(hostname -I)) !"
 echo "******************************************************"
 echo "Note: Toutes actions sur ce serveur sont enregistrees."
 echo "------------------------------------------------------"
+
+ping -c 1 "$host1" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo -e "\033[0;31mAucune connexion Internet n'est disponible.\033[0m"
+else
+  ping -c 1 "$host2" > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo -e "\033[0;31mAucune connexion DNS n'est disponible.\033[0m"
+  else
+    echo -e "\033[0;32mConnexion à internet : OK.\033[0m"  
+  fi 
+fi
+
 updates=$(apt-get upgrade --dry-run --only-security 2> /dev/null | grep ^Inst | wc -l)
 if [ $updates -gt 0 ]; then
   echo -e "\033[0;31mIl y a $updates mises à jour de sécurité en attente.\033[0m"
