@@ -49,8 +49,19 @@ echo "Bienvenue sur : $(hostname -f) ($(hostname -I)) !"
 echo "******************************************************"
 echo "Note: Toutes actions sur ce serveur sont enregistrees."
 echo "------------------------------------------------------"
-echo "Date    : $(date) "
-echo "Uptime  : $(uptime -p)"
+updates=$(apt-get upgrade --dry-run --only-security 2> /dev/null | grep ^Inst | wc -l)
+if [ $updates -gt 0 ]; then
+  echo -e "\033[0;31mIl y a $updates mises à jour de sécurité en attente.\033[0m"
+else
+  echo -e "\033[0;32mIl n'y a pas de mises à jour de sécurité en attente.\033[0m"
+fi
+updates=$(apt-get upgrade --dry-run 2> /dev/null | grep ^Inst | wc -l)
+if [ $updates -gt 0 ]; then
+  echo -e "\033[0;31mIl y a $updates mises à jour en attente.\033[0m"
+else
+  echo -e "\033[0;32mIl n'y a pas de mises à jour en attente.\033[0m"
+fi
+
 echo "Temp    : $(cat /sys/devices/platform/coretemp.0/hwmon/hwmon2/device/hwmon/hwmon2/temp1_input|sed 's/\(.\)..$/.\1°C/')"
 # Disk : Verification de l'espace restant
 FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
