@@ -63,7 +63,7 @@ ping -c 1 "$host1" > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\033[0;31mAucune connexion Internet n'est disponible.\033[0m"
 else
-  ping -c 1 "$host2" > /dev/null 2>&1
+  nslookup "$host2" > /dev/null 2>&1
   if [ $? -ne 0 ]; then
     echo -e "\033[0;31mAucune connexion DNS n'est disponible.\033[0m"
   else
