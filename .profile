@@ -58,6 +58,7 @@ echo "Bienvenue sur : $(hostname -f) ($(hostname -I)) !"
 echo "******************************************************"
 echo "Note: Toutes actions sur ce serveur sont enregistrees."
 echo "------------------------------------------------------"
+echo -e "Date d'installation : $(stat / | grep "Birth" | sed 's/Birth: //g' | cut -b 2-11)"
 
 ping -c 1 "$host1" > /dev/null 2>&1
 if [ $? -ne 0 ]; then
