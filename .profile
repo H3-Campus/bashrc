@@ -15,7 +15,7 @@ if [ -f "$marker_file" ]; then
   echo "Mise à jour des outils déjà faite."
 else
   touch "$marker_file"
-  apt install -y neofetch mailutils figlet
+  apt install -y neofetch mailutils figlet dnsutils net-tools
 fi
 
 # if running bash
