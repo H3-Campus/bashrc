@@ -89,7 +89,7 @@ echo "Temp    : $(cat /sys/devices/virtual/thermal/thermal_zone0/temp|sed 's/\(.
 # Disk : Verification de l'espace restant
 FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
 #[ $FD -lt $MaxHDUse ] && libre="\e[01;32;7m $FD% \e[0m" || libre="\e[41;37;5m $FD% \e[0m"
-echo -e "Disk    : Use->$(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f3) / Free->$(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f4)"
+echo -e "Disk    : $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f3) / $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f4)"
 
 # Verification des services Web
 #pidof "pihole-FTL" >/dev/null && echo -e "Pihole-FTL: \e[01;32;7m Service actif \e[0m" || echo -e "Pihole-FTL : \e[41;37;5m Service inactif \e[0m"
