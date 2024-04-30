@@ -76,7 +76,7 @@ else
 fi
 
 # Mettre à jour la liste des paquets disponibles
-sudo apt-get update > /dev/null
+apt-get update > /dev/null
 
 # Obtenir la liste des mises à jour disponibles
 updates=$(apt list --upgradable 2>/dev/null | grep -v Listing)
