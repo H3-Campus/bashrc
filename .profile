@@ -16,6 +16,7 @@ if [ -f "$marker_file" ]; then
 else
   touch "$marker_file"
   apt install -y neofetch mailutils figlet dnsutils net-tools lm-sensors nodejs npm
+  apt install -y libxdamage1 libxkbcommon0 libatk-bridge2.0-0 libatk1.0-0
   cd ~
   wget https://github.com/fastfetch-cli/fastfetch/releases/download/2.10.2/fastfetch-linux-amd64.deb
   dpkg -i fastfetch-linux-amd64.deb
@@ -154,3 +155,4 @@ xterm*|rxvt*)
     ;;
 esac
 figlet H3 Campus
+fast &
