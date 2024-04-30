@@ -83,20 +83,19 @@ updates=$(apt list --upgradable 2>/dev/null | grep -v Listing)
 
 if [[ -z "$updates" ]]; then
     echo -e "\e[32mAucune mise à jour disponible.\e[0m"  # Affiche en vert s'il n'y a pas de mise à jour
-    exit 0
-fi
+else 
+  # Compter les mises à jour de sécurité
+  security_updates_count=$(echo "$updates" | grep -e "\s\(security\|sécurité\)\s" | wc -l)
+  
+  # Compter les autres mises à jour
+  other_updates_count=$(echo "$updates" | grep -v -e "\s\(security\|sécurité\)\s" | wc -l)
 
-# Compter les mises à jour de sécurité
-security_updates_count=$(echo "$updates" | grep -e "\s\(security\|sécurité\)\s" | wc -l)
-
-# Compter les autres mises à jour
-other_updates_count=$(echo "$updates" | grep -v -e "\s\(security\|sécurité\)\s" | wc -l)
-
-if [[ $security_updates_count -gt 0 || $other_updates_count -gt 0 ]]; then
-    echo -e "\e[31mNombre de mises à jour de sécurité disponibles : $security_updates_count\e[0m"  # Affiche en rouge si des mises à jour sont disponibles
-    echo -e "\e[31mNombre d'autres mises à jour disponibles : $other_updates_count\e[0m"  # Affiche en rouge si des mises à jour sont disponibles
-else
-    echo -e "\e[32mAucune mise à jour disponible.\e[0m"  # Affiche en vert s'il n'y a pas de mise à jour
+  if [[ $security_updates_count -gt 0 || $other_updates_count -gt 0 ]]; then
+      echo -e "\e[31mNombre de mises à jour de sécurité disponibles : $security_updates_count\e[0m"  # Affiche en rouge si des mises à jour sont disponibles
+      echo -e "\e[31mNombre d'autres mises à jour disponibles : $other_updates_count\e[0m"  # Affiche en rouge si des mises à jour sont disponibles
+  else
+      echo -e "\e[32mAucune mise à jour disponible.\e[0m"  # Affiche en vert s'il n'y a pas de mise à jour
+  fi
 fi
 
 # Utiliser sensors pour obtenir les informations de température
