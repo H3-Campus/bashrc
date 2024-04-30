@@ -123,7 +123,7 @@ else
     # Afficher la température du système avec la couleur appropriée
     echo -e "Température du système : ${color}${system_temp}\e[0m"
 fi
-
+cd ~
 # Disk : Verification de l'espace restant
 #FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
 #[ $FD -lt $MaxHDUse ] && libre="\e[01;32;7m $FD% \e[0m" || libre="\e[41;37;5m $FD% \e[0m"
