@@ -16,6 +16,9 @@ if [ -f "$marker_file" ]; then
 else
   touch "$marker_file"
   apt install -y neofetch mailutils figlet dnsutils net-tools
+  cd ~
+  wget https://github.com/fastfetch-cli/fastfetch/releases/download/2.10.2/fastfetch-linux-amd64.deb
+  dpkg -i fastfetch-linux-amd64.deb
 fi
 
 # if running bash
@@ -51,7 +54,7 @@ alias sp='source .profile'
 alias ep='nano .profile'
 
 clear
-neofetch
+fastfetch
 alias disk="df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g'"
 
 echo "Bienvenue sur : $(hostname -f) ($(hostname -I)) !"
@@ -89,7 +92,7 @@ echo "Temp    : $(cat /sys/devices/virtual/thermal/thermal_zone0/temp|sed 's/\(.
 # Disk : Verification de l'espace restant
 FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
 #[ $FD -lt $MaxHDUse ] && libre="\e[01;32;7m $FD% \e[0m" || libre="\e[41;37;5m $FD% \e[0m"
-echo -e "Disk    : $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f3) / $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f4)"
+#echo -e "Disk    : $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f3) / $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f4)"
 
 # Verification des services Web
 #pidof "pihole-FTL" >/dev/null && echo -e "Pihole-FTL: \e[01;32;7m Service actif \e[0m" || echo -e "Pihole-FTL : \e[41;37;5m Service inactif \e[0m"
