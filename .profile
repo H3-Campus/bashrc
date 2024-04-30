@@ -76,7 +76,7 @@ else
 fi
 
 # Mettre à jour la liste des paquets disponibles
-sudo apt update > /dev/null
+sudo apt-get update > /dev/null
 
 # Obtenir la liste des mises à jour disponibles
 updates=$(apt list --upgradable 2>/dev/null | grep -v Listing)
@@ -99,16 +99,6 @@ else
     echo -e "\e[32mAucune mise à jour disponible.\e[0m"  # Affiche en vert s'il n'y a pas de mise à jour
 fi
 
-#!/bin/bash
-
-# Vérifier si lm-sensors est installé
-if ! command -v sensors &> /dev/null; then
-    echo "Le package lm-sensors (sensors) n'est pas installé."
-    echo "Veuillez installer lm-sensors avec la commande :"
-    echo "sudo apt install lm-sensors"
-    exit 1
-fi
-
 # Utiliser sensors pour obtenir les informations de température
 temp_info=$(sensors)
 
@@ -118,26 +108,25 @@ system_temp=$(echo "$temp_info" | grep "Package" | awk '{print $4}')
 # Vérifier si la température du système est disponible
 if [[ -z "$system_temp" ]]; then
     echo "Impossible de récupérer la température du système."
-    exit 1
+else 
+    # Extraire la partie numérique de la température (en enlevant le °C et le décimal)
+    system_temp_int=$(echo "$system_temp" | tr -d '.°C')
+
+    # Déterminer la couleur en fonction de la température
+    if [[ $system_temp_int -gt 550 ]]; then
+       color='\e[31m'  # Rouge pour température > 55°C
+    elif [[ $system_temp_int -ge 350 && $system_temp_int -le 540 ]]; then
+       color='\e[32m'  # Vert pour température entre 35°C et 54°C
+    else
+       color='\e[34m'  # Bleu pour température < 35°C
+    fi
+
+    # Afficher la température du système avec la couleur appropriée
+    echo -e "Température du système : ${color}${system_temp}\e[0m"
 fi
-
-# Extraire la partie numérique de la température (en enlevant le °C et le décimal)
-system_temp_int=$(echo "$system_temp" | tr -d '.°C')
-
-# Déterminer la couleur en fonction de la température
-if [[ $system_temp_int -gt 550 ]]; then
-    color='\e[31m'  # Rouge pour température > 55°C
-elif [[ $system_temp_int -ge 350 && $system_temp_int -le 540 ]]; then
-    color='\e[32m'  # Vert pour température entre 35°C et 54°C
-else
-    color='\e[34m'  # Bleu pour température < 35°C
-fi
-
-# Afficher la température du système avec la couleur appropriée
-echo -e "Température du système : ${color}${system_temp}\e[0m"
 
 # Disk : Verification de l'espace restant
-FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
+#FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
 #[ $FD -lt $MaxHDUse ] && libre="\e[01;32;7m $FD% \e[0m" || libre="\e[41;37;5m $FD% \e[0m"
 #echo -e "Disk    : $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f3) / $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f4)"
 
