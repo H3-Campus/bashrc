@@ -15,7 +15,7 @@ if [ -f "$marker_file" ]; then
   echo "Mise à jour des outils déjà faite."
 else
   touch "$marker_file"
-  apt install -y neofetch mailutils figlet dnsutils net-tools
+  apt install -y neofetch mailutils figlet dnsutils net-tools lm-sensors
   cd ~
   wget https://github.com/fastfetch-cli/fastfetch/releases/download/2.10.2/fastfetch-linux-amd64.deb
   dpkg -i fastfetch-linux-amd64.deb
@@ -75,20 +75,67 @@ else
   fi 
 fi
 
-updates=$(apt-get upgrade --dry-run --only-security 2> /dev/null | grep ^Inst | wc -l)
-if [ $updates -gt 0 ]; then
-  echo -e "\033[0;31mIl y a $updates mises à jour de sécurité en attente.\033[0m"
-else
-  echo -e "\033[0;32mIl n'y a pas de mises à jour de sécurité en attente.\033[0m"
-fi
-updates=$(apt-get upgrade --dry-run 2> /dev/null | grep ^Inst | wc -l)
-if [ $updates -gt 0 ]; then
-  echo -e "\033[0;31mIl y a $updates mises à jour en attente.\033[0m"
-else
-  echo -e "\033[0;32mIl n'y a pas de mises à jour en attente.\033[0m"
+# Mettre à jour la liste des paquets disponibles
+sudo apt update > /dev/null
+
+# Obtenir la liste des mises à jour disponibles
+updates=$(apt list --upgradable 2>/dev/null | grep -v Listing)
+
+if [[ -z "$updates" ]]; then
+    echo -e "\e[32mAucune mise à jour disponible.\e[0m"  # Affiche en vert s'il n'y a pas de mise à jour
+    exit 0
 fi
 
-echo "Temp    : $(cat /sys/devices/virtual/thermal/thermal_zone0/temp|sed 's/\(.\)..$/.\1°C/')"
+# Compter les mises à jour de sécurité
+security_updates_count=$(echo "$updates" | grep -e "\s\(security\|sécurité\)\s" | wc -l)
+
+# Compter les autres mises à jour
+other_updates_count=$(echo "$updates" | grep -v -e "\s\(security\|sécurité\)\s" | wc -l)
+
+if [[ $security_updates_count -gt 0 || $other_updates_count -gt 0 ]]; then
+    echo -e "\e[31mNombre de mises à jour de sécurité disponibles : $security_updates_count\e[0m"  # Affiche en rouge si des mises à jour sont disponibles
+    echo -e "\e[31mNombre d'autres mises à jour disponibles : $other_updates_count\e[0m"  # Affiche en rouge si des mises à jour sont disponibles
+else
+    echo -e "\e[32mAucune mise à jour disponible.\e[0m"  # Affiche en vert s'il n'y a pas de mise à jour
+fi
+
+#!/bin/bash
+
+# Vérifier si lm-sensors est installé
+if ! command -v sensors &> /dev/null; then
+    echo "Le package lm-sensors (sensors) n'est pas installé."
+    echo "Veuillez installer lm-sensors avec la commande :"
+    echo "sudo apt install lm-sensors"
+    exit 1
+fi
+
+# Utiliser sensors pour obtenir les informations de température
+temp_info=$(sensors)
+
+# Extraire la température du système (généralement associée au processeur ou au package thermique)
+system_temp=$(echo "$temp_info" | grep "Package" | awk '{print $4}')
+
+# Vérifier si la température du système est disponible
+if [[ -z "$system_temp" ]]; then
+    echo "Impossible de récupérer la température du système."
+    exit 1
+fi
+
+# Extraire la partie numérique de la température (en enlevant le °C et le décimal)
+system_temp_int=$(echo "$system_temp" | tr -d '.°C')
+
+# Déterminer la couleur en fonction de la température
+if [[ $system_temp_int -gt 550 ]]; then
+    color='\e[31m'  # Rouge pour température > 55°C
+elif [[ $system_temp_int -ge 350 && $system_temp_int -le 540 ]]; then
+    color='\e[32m'  # Vert pour température entre 35°C et 54°C
+else
+    color='\e[34m'  # Bleu pour température < 35°C
+fi
+
+# Afficher la température du système avec la couleur appropriée
+echo -e "Température du système : ${color}${system_temp}\e[0m"
+
 # Disk : Verification de l'espace restant
 FD=$(echo $(df -h 2>/dev/null | grep '/$' | sed -e 's/ /:/g' | sed -e 's/::/:/g' | sed -e 's/::/:/g'| sed -e 's/::/:/g' | cut -d ':' -f5)| cut -d '%' -f1)
 #[ $FD -lt $MaxHDUse ] && libre="\e[01;32;7m $FD% \e[0m" || libre="\e[41;37;5m $FD% \e[0m"
