@@ -19,6 +19,7 @@ else
   cd ~
   wget https://github.com/fastfetch-cli/fastfetch/releases/download/2.10.2/fastfetch-linux-amd64.deb
   dpkg -i fastfetch-linux-amd64.deb
+  npm install --global fast-cli
 fi
 
 # if running bash
